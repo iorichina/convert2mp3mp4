@@ -1,42 +1,61 @@
 @echo off
-rem echo ÕıÔÚÔËĞĞµÄÕâ¸öÅú´¦Àí£º
-rem echo ÍêÈ«Â·¾¶£º%0
-rem echo È¥µôÒıºÅ£º%~0
-rem echo ËùÔÚ·ÖÇø£º%~d0
-rem echo Ëù´¦Â·¾¶£º%~p0
-rem echo ÎÄ¼şÃû£º%~n0
-rem echo À©Õ¹Ãû£º%~x0
-rem echo ÎÄ¼şÊôĞÔ£º%~a0
-rem echo ĞŞ¸ÄÊ±¼ä£º%~t0
-rem echo ÎÄ¼ş´óĞ¡£º%~z0
-rem echo %~s1
-rem echo %~n1
-rem echo %~f1
-rem echo %~dp1
-rem goto exit
+chcp 65001
+setlocal enabledelayedexpansion
 
-echo "%%~s1=%~s1"
-echo "%%~n1=%~n1"
-echo "%%~f1=%~f1"
-echo "%%~dp1=%~dp1"
-echo "E:\Programs\ffmpeg-3.3.2-win64-static\bin\ffmpeg.exe"
-echo "%%1=%1"
+echo [è°ƒè¯•] å½“å‰ç›®å½•: %CD%
+echo [è°ƒè¯•] è„šæœ¬è·¯å¾„: %~dp0
+echo [è°ƒè¯•] å®Œæ•´å‘½ä»¤è¡Œ: %0 %*
+echo.
 
-rem goto exit
-rem cls
+echo [è°ƒè¯•] "%%1=%1"
+echo [è°ƒè¯•] "%%~1=%~1"
+echo [è°ƒè¯•] "%%~s1=%~s1"
+echo [è°ƒè¯•] "%%~n1=%~n1"
+echo [è°ƒè¯•] "%%~f1=%~f1"
+echo [è°ƒè¯•] "%%~x1=%~x1"
+echo.
 
-cd %~f1
+echo [è°ƒè¯•] æ£€æŸ¥ffmpegé…ç½®æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+
+if not exist "%~dp0ffmpeg_path.txt" (
+    echo [é”™è¯¯] æ‰¾ä¸åˆ°ffmpegé…ç½®æ–‡ä»¶ï¼š%~dp0ffmpeg_path.txt
+    pause
+    exit /b 1
+)
+echo [è°ƒè¯•] é…ç½®æ–‡ä»¶å­˜åœ¨æ£€æŸ¥é€šè¿‡
+echo.
+
+for /f "usebackq delims=" %%i in ("%~dp0ffmpeg_path.txt") do set "FFMPEG_PATH=%%i"
+echo "FFMPEG_PATH=%FFMPEG_PATH%"
+
+echo [è°ƒè¯•] æ£€æŸ¥ffmpegæ˜¯å¦å­˜åœ¨
+
+if not exist "%FFMPEG_PATH%" (
+    echo [é”™è¯¯] æ‰¾ä¸åˆ°ffmpegç¨‹åºï¼š%FFMPEG_PATH%
+    echo è¯·æ£€æŸ¥ffmpeg_path.txtä¸­çš„è·¯å¾„æ˜¯å¦æ­£ç¡®
+    pause
+    exit /b 1
+)
+echo [è°ƒè¯•] ffmpegç¨‹åºæ£€æŸ¥é€šè¿‡
+echo.
+
+cd /d "%~f1"
 echo ===============================
 for %%s in (.,*) do (
   if not "." == "%%s" (
-    echo %%s
-	"E:\Programs\ffmpeg-3.3.2-win64-static\bin\ffmpeg.exe" -y -i "%%s" "%%s.mp4"
-    echo Mp4ÌáÈ¡Íê±Ï£º%~f1\%%s.mp4
+    set "ext=%%~xs"
+    echo [è°ƒè¯•] è·å–æ–‡ä»¶æ‰©å±•å "!ext!"
+    
+    echo [è°ƒè¯•] å¦‚æœä¸æ˜¯mp4æ–‡ä»¶æ‰è¿›è¡Œè½¬æ¢
+    if /i not "!ext!"==".mp4" (
+      echo æ­£åœ¨è½¬æ¢: %%s
+      "%FFMPEG_PATH%" -y -i "%%s" "%%s.mp4"
+      echo Mp4è½¬æ¢å®Œæ¯•ï¼š%~f1\%%s.mp4
+    ) else (
+      echo è·³è¿‡MP4æ–‡ä»¶: %%s
+    )
     echo ===============================
   )
 )
 
-rem cls
-
-:exit
 pause

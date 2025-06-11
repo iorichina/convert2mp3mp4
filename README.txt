@@ -1,1 +1,0 @@
-drag the flv file to "flv2mp3.bat" and drop.

@@ -6,6 +6,8 @@ download ffmpeg from http://www.ffmpeg.org/download.html
 
 extract files to E:\Programs\ffmpeg-3.3.2-win64-static
 
+modify file `ffmepg_path.txt` 
+
 # how to use 
 drag file/folder which include files to *.bat file
 
@@ -13,6 +15,8 @@ drag file/folder which include files to *.bat file
 下载ffmpeg http://www.ffmpeg.org/download.html
 
 解压到E:\Programs\ffmpeg-3.3.2-win64-static
+
+修改文件 `ffmepg_path.txt` 
 
 # 操作方法
 拖动文件或者文件夹到对应的bat文件即可
